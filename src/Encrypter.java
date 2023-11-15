@@ -34,6 +34,9 @@ public class Encrypter {
      */
     public void encrypt(String inputFilePath, String encryptedFilePath) throws Exception {
         //TODO: Call the read method, encrypt the file contents, and then write to new file
+        String message = readFile(inputFilePath);
+        this.encrypted = encryptText(message, shift);
+        writeFile(this.encrypted, encrpytedFilePath);
     }
 
     /**
@@ -45,6 +48,9 @@ public class Encrypter {
      */
     public void decrypt(String messageFilePath, String decryptedFilePath) throws Exception {
         //TODO: Call the read method, decrypt the file contents, and then write to new file
+        String encryptedMessage = readFile(messageFilePath);
+        this.encrypted = decryptText(encryptedMessage, shift);
+        writeFile(this.encrypted, decryptedFilePath);
     }
 
     /**
@@ -55,9 +61,33 @@ public class Encrypter {
      * @throws Exception if an error occurs while reading the file
      */
     private static String readFile(String filePath) throws Exception {
-        String message = "";
+        StringBuilder content = new StringBuilder();
+        try (Scanner scanner = new Scanner(new File(filePath))){
+            While (scanner.hasNextLine()){
+                content.append(scanner.nextLine()).append("\n");
+            }
+        } catch (IOEception e){
+            throw new IOException("Error reading the file", e);
+        }
         //TODO: Read file from filePath
-        return message;
+        return content.toString();
+    }
+
+    private static String encryptText(String text, int shift){
+        StringBuilder encryptedText = new StringBuilder();
+        for (char ch: text.toCharArray()){
+            if (Character.isLetter(ch)){
+                char base = (Character.isUpperCase(ch)) ? 'A' : 'a';
+                encryptedText.append((char) ((ch - base + shift) % 26 + base));
+            } else {
+                encryptedText.append(ch);
+            }
+        }
+        return encryptedText.toString();
+    }
+
+    private static String decryptText(String text, int shift){
+        return encryptText(text, 26 - shift);
     }
 
     /**
@@ -66,8 +96,13 @@ public class Encrypter {
      * @param data     the data to be written to the file
      * @param filePath the path to the file where the data will be written
      */
-    private static void writeFile(String data, String filePath) {
+    private static void writeFile(String data, String filePath) throws IOException {
         //TODO: Write to filePath
+        try (FileWriter writer = new FileWriter(filePath)){
+            writer.write(data);
+        } catch (IOException e){
+            throw new IOException("Error writing to the file", e);
+        }
     }
 
     /**
