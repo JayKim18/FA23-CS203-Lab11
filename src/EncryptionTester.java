@@ -11,9 +11,17 @@ public class EncryptionTester {
 
         Encrypter enc = new Encrypter(shift);
 
+	try{
 		enc.encrypt(inputFilePath, outputFilePath);
-		enc.decrypt(encryptedFilePath, decryptedFilePath);
+		System.out.println("Encryption complete. Encrypted text: " + enc);
 
+		Encrypter dec = new Encrypter(shift);
+		dec.decrypt(encryptedFilePath, decryptedFilePath);
+		System.out.println("Decryption complete. Decrypted text: " + dec);
+
+	} catch (Exception e){
+		e.printStackTrace();
+	}
 	}
 
 
