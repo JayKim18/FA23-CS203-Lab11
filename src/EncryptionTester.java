@@ -8,21 +8,17 @@ public class EncryptionTester {
         String outputFilePath = "src/newEncrypted.txt";
 		
         int shift = 1; // Says how much you would like to shift
-
-        Encrypter enc = new Encrypter(shift);
-
 	try{
-		enc.encrypt(inputFilePath, outputFilePath);
-		System.out.println("Encryption complete. Encrypted text: " + enc);
+		Encrypter encrypter = new Encrypter(shift);
 
-		Encrypter dec = new Encrypter(shift);
-		dec.decrypt(encryptedFilePath, decryptedFilePath);
-		System.out.println("Decryption complete. Decrypted text: " + dec);
+		encrypter.encrypter(inputFilePath, outputFilePath);
 
+		encrypter.decrypt(encryptedFilePath, decryptedFilePath);
+
+		System.out.println("Encryption and Decryption completed successfully.");
 	} catch (Exception e){
+		System.err.println("Error: " + e.getMessage());
 		e.printStackTrace();
 	}
 	}
-
-
 }
