@@ -34,9 +34,9 @@ public class Encrypter {
      */
     public void encrypt(String inputFilePath, String encryptedFilePath) throws Exception {
         //TODO: Call the read method, encrypt the file contents, and then write to new file
-        String message = readFile(inputFilePath);
-        this.encrypted = encryptText(message, shift);
-        writeFile(this.encrypted, encrpytedFilePath);
+        String content = readFile(inputFilePath);
+        String encryptedContent = performEncryption(content);
+        writeFile(encryptedContent, encrpytedFilePath);
     }
 
     /**
@@ -48,9 +48,9 @@ public class Encrypter {
      */
     public void decrypt(String messageFilePath, String decryptedFilePath) throws Exception {
         //TODO: Call the read method, decrypt the file contents, and then write to new file
-        String encryptedMessage = readFile(messageFilePath);
-        this.encrypted = decryptText(encryptedMessage, shift);
-        writeFile(this.encrypted, decryptedFilePath);
+        String encryptedContent = readFile(messageFilePath);
+        String decryptedContent = performDecryption(encryptedContent);
+        writeFile(decryptedContent, decryptedFilePath);
     }
 
     /**
@@ -73,23 +73,6 @@ public class Encrypter {
         return content.toString();
     }
 
-    private static String encryptText(String text, int shift){
-        StringBuilder encryptedText = new StringBuilder();
-        for (char ch: text.toCharArray()){
-            if (Character.isLetter(ch)){
-                char base = (Character.isUpperCase(ch)) ? 'A' : 'a';
-                encryptedText.append((char) ((ch - base + shift) % 26 + base));
-            } else {
-                encryptedText.append(ch);
-            }
-        }
-        return encryptedText.toString();
-    }
-
-    private static String decryptText(String text, int shift){
-        return encryptText(text, 26 - shift);
-    }
-
     /**
      * Writes data to a file.
      *
@@ -103,6 +86,14 @@ public class Encrypter {
         } catch (IOException e){
             throw new IOException("Error writing to the file", e);
         }
+    }
+
+    private String performEncryption(String content){
+        return content;
+    }
+
+    private String performDecryption(String encryptionContent){
+        return encryptedContent;
     }
 
     /**
